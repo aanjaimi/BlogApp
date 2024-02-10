@@ -19,7 +19,7 @@ const Cairofont = Cairo({
 const LandingPage = () => {
   const router = useRouter();
   const handleRedirect = () => {
-    router.push("/blogs");
+    router.push("/home");
   }
 
   return (
@@ -28,7 +28,7 @@ const LandingPage = () => {
         <div className="w-full h-full bg-opacity-40 bg-orange-400 flex flex-col items-center justify-center">
           <div
             className={cn(
-              "flex text-[120px] text-white font-bold",
+              "flex text-[40px] sm:text-[120px] text-white font-bold",
               Poppinsfont.className
             )}
           >
@@ -36,7 +36,7 @@ const LandingPage = () => {
           </div>
           <div
             className={cn(
-              "flex text-[30px] text-white font-bold",
+              "flex text-[20px] sm:text-[30px] text-white font-bold",
               Cairofont.className
             )}
           >
