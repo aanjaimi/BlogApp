@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1>Welcome to my Blog App</h1>
 
-## Getting Started
+<h2>Objective</h2>
+This project is about creating a blog app using Nextjs 14 and Prisma, where you can add, remove, and list your personnel blogs.
 
-First, run the development server:
+<h2>Technologies:</h2>
+<ul>
+<li>Nextjs 14(app router)</li>
+<li>Tailwind as CSS framework</li>
+<li>shadcn which is a group of reusable components built in using radix</li>
+<li>Prisma a long side with postgresql using <a href="https://neon.tech/">NEON</a>(Serverless Postgres) which handles our database without using a server</li>
+</ul>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<h2>Usage:</h2>
+<ol>
+<li>tap `npm install` to install all the dependencies that project relies on to function properly</li>
+<li></li>
+</ol>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<h2>Features:</h2>
+<ol>
+<li>
+Landing Page
+<ul>
+<li>where you can click to redirect to the blog home page</li>
+</ul>
+</li>
+<li>Home Page
+<ul>
+<li>Add Blog</li>
+<li>Remove all Blogs</li>
+<li>Display a list of Blogs: each blog have a title, content and a publication date, firstly you can see the title, the publication date and time, and an excerpt from the content, you can remove or display all the content of this blog</li>
+</ul>
+</li>
+<li>Blog Page
+<ul>
+<li>Which is a dynamic route by id where you can see all the information of this blog in one page</li>
+</ul>
+</li>
+</ol>

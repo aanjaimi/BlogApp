@@ -39,7 +39,7 @@ const AddBlog = () => {
             <span className="text-[15px] pr-1 font-bold">Delete all</span>
           </div>
         </DialogTrigger>
-        <DialogContent className="sm:w-auto w-[250px]">
+        <DialogContent className="sm:w-[400px] w-[250px]">
           <DialogHeader>
             <DialogTitle>Are you absolutely sure?</DialogTitle>
             <DialogDescription>
@@ -65,7 +65,7 @@ const AddBlog = () => {
             <span className="text-[15px] pr-1 font-bold">Add Blog</span>
           </div>
         </DialogTrigger>
-        <DialogContent className="sm:w-auto w-[250px]">
+        <DialogContent className="sm:w-[400px] w-[250px]">
           <DialogHeader className="flex flex-col items-center space-y-6">
             <DialogTitle>Add your blog here</DialogTitle>
             <div className="w-full">
