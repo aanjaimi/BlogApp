@@ -55,11 +55,15 @@ const DisplayBlog = ({ blog }: DisplayBlogProps) => {
 
   return (
     <div className="max-w-[200px] min-w-[200px] sm:max-w-[400px] sm:min-w-[400px] flex flex-col bg-white space-y-10 m-6">
+      {/* part of date, time, remove and display */}
       <div className="mt-[10px] flex justify-between">
+        {/* date and time */}
         <div className="ml-[10px]">
           {date} {time}
         </div>
+        {/* delete and expand blog */}
         <div className="flex justify-end">
+          {/* delete blog */}
           <Dialog>
             <DialogTrigger className="flex justify-center rounded-full w-6 h-6 hover:bg-slate-200">
               <HoverCard>
@@ -90,6 +94,7 @@ const DisplayBlog = ({ blog }: DisplayBlogProps) => {
               </span>
             </DialogContent>
           </Dialog>
+          {/* expand blog */}
           <HoverCard>
             <HoverCardTrigger>
               <HiOutlineArrowsExpand
@@ -103,9 +108,11 @@ const DisplayBlog = ({ blog }: DisplayBlogProps) => {
           </HoverCard>
         </div>
       </div>
+      {/* blog title */}
       <h1 className="flex items-center justify-center text-[20px] md:text-[30px] font-bold">
         {blog.title}
       </h1>
+      {/* blog content display 50 characters at most */}
       <p className="p-2 text-[15px] md:text-[20px] flex items-center justify-center">
         {bigger ? <div>{content}...</div> : <div>{content}</div>}
       </p>

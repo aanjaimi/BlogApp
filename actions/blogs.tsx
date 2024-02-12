@@ -3,6 +3,8 @@ import * as z from "zod";
 import { BlogSchema } from "../schemas";
 import { db } from "../lib/db";
 
+//group of actions for the database operations: add blog, get blogs, remove blog, remove all blogs, get blog by id
+
 export const addBlog = async (values: z.infer<typeof BlogSchema>) => {
   const validate = BlogSchema.safeParse(values);
 

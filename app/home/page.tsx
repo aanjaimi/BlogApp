@@ -9,6 +9,7 @@ import LoadingPage from "@/components/loading-page";
 const Homepage = () => {
   const [blogs, setBlogs] = useState<Blog[] | null>(null);
 
+  // fetch form blogs
   useEffect(() => {
     const resp = getBlogs();
     resp.then((res) => {
@@ -21,6 +22,7 @@ const Homepage = () => {
   }
 
   return (
+    // home page
     <div className="body w-screen h-screen flex items-center justify-center">
       <div className="bg-opacity-70 bg-orange-200 w-[90%] h-[90%] flex flex-col">
         <AddBlog />

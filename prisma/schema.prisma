@@ -9,6 +9,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// this my Blog table or model
 model Blog {
   id                 String   @id @default(cuid())
   title              String   @unique

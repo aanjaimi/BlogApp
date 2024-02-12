@@ -1,6 +1,7 @@
 NPM=npm
 PRISMA=npx prisma
 
+# production mode
 up:
 	$(PRISMA) generate
 	$(PRISMA) db push
@@ -8,6 +9,7 @@ up:
 	$(NPM) run build 
 	$(NPM) run start
 
+# development mode
 dev:
 	$(PRISMA) generate
 	$(PRISMA) db push

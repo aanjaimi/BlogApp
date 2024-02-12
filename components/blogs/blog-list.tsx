@@ -11,15 +11,18 @@ type BlogListProps = {
 const BlogList = ({ blogs }: BlogListProps) => {
   return (
     <>
+      {/* if the blog list not empty */}
       {blogs.length ? (
         <ScrollArea className="flex-1 w-full h-[90%] flex items-center justify-center">
           <section className="w-full sm:w-[97%] h-full flex flex-wrap justify-center sm:m-6">
             {blogs.map((blog) => (
+              // display one blog
               <DisplayBlog key={blog.id} blog={blog} />
             ))}
           </section>
         </ScrollArea>
       ) : (
+        // if the blog list empty
         <div className="w-full h-full flex items-center justify-center">
           <p>No blogs to display</p>
         </div>

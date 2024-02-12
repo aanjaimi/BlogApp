@@ -17,6 +17,7 @@ import { toast } from "sonner";
 const AddBlog = () => {
   const [isPending, startTransition] = useTransition();
 
+  // this function for removing all blogs
   const handleRemoveAll = () => {
     startTransition(() => {
       removeAllBlogs().then((res) => {
@@ -32,6 +33,7 @@ const AddBlog = () => {
 
   return (
     <div className="border-b border-b-black w-full h-[80px] sm:h-[60px] flex justify-center sm:justify-end">
+      {/* dialog for the delete all button */}
       <Dialog>
         <DialogTrigger className="mx-[20px]">
           <div className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl w-fit h-fit p-1 flex justify-center items-center space-x-2">
@@ -47,6 +49,7 @@ const AddBlog = () => {
               blogs and remove them from our servers.
             </DialogDescription>
           </DialogHeader>
+          {/* this for the button of delete all */}
           <span className="w-full flex justify-center items-center">
             <Button
               onClick={handleRemoveAll}
@@ -58,6 +61,7 @@ const AddBlog = () => {
           </span>
         </DialogContent>
       </Dialog>
+      {/* dialog for add blog button */}
       <Dialog>
         <DialogTrigger className="mx-[20px]">
           <div className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl w-fit h-fit p-1 flex justify-center items-center space-x-2">
@@ -68,6 +72,7 @@ const AddBlog = () => {
         <DialogContent className="sm:w-[400px] w-[250px]">
           <DialogHeader className="flex flex-col items-center space-y-6">
             <DialogTitle>Add your blog here</DialogTitle>
+            {/* this is the blog form in dialog content */}
             <div className="w-full">
               <BlogForm />
             </div>
