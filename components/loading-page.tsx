@@ -1,11 +1,12 @@
 import React from "react";
-import Image from "next/image";
 
 const LoadingPage = () => {
   return (
-    <div className="w-screen h-screen flex flex-col items-center justify-center">
-      <Image src="/loading.gif" alt="loading" width={1000} height={1000} />
-      <p className="text-[100px] font-bold">Loading</p>
+    <div className="loader body">
+      <div className="wrapper">
+        <div className="text">LOADING</div>
+        <div className="box"></div>
+      </div>
     </div>
   );
 };

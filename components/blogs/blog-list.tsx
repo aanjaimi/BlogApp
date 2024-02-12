@@ -1,13 +1,8 @@
 "use client";
 import React from "react";
 import type { Blog } from "@/types/blog";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import DisplayBlog from "./display-blog";
+import { ScrollArea } from "../ui/scroll-area";
 
 type BlogListProps = {
   blogs: Blog[];
@@ -15,21 +10,21 @@ type BlogListProps = {
 
 const BlogList = ({ blogs }: BlogListProps) => {
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center mt-[12px]">
+    <>
       {blogs.length ? (
-        <Carousel>
-          <CarouselContent className="flex w-[310px] h-[310px]">
+        <ScrollArea className="flex-1 w-full h-[90%] flex items-center justify-center">
+          <section className="w-full sm:w-[97%] h-full flex flex-wrap justify-center sm:m-6">
             {blogs.map((blog) => (
               <DisplayBlog key={blog.id} blog={blog} />
             ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+          </section>
+        </ScrollArea>
       ) : (
-        <p>No blogs to display</p>
+        <div className="w-full h-full flex items-center justify-center">
+          <p>No blogs to display</p>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

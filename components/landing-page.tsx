@@ -1,6 +1,5 @@
 "use client"
 import React from "react";
-import { Button } from "./ui/button";
 import { Poppins } from "next/font/google";
 import { Cairo } from "next/font/google";
 import { cn } from "@/lib/utils";
@@ -43,7 +42,7 @@ const LandingPage = () => {
             Go deeper into the world of blogs
           </div>
           <div>
-            <Button variant="default" size="lg" className="mt-[30px]" onClick={handleRedirect}>Get Started</Button>
+            <button className="bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8 mt-[30px]" onClick={handleRedirect}>Get Started</button>
           </div>
         </div>
       </div>

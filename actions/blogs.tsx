@@ -50,6 +50,16 @@ export const removeBlog = async (id: string) => {
   }
 };
 
+export const removeAllBlogs = async () => {
+  try {
+    await db.blog.deleteMany({});
+    return { success: "All blogs removed" };
+  } catch (error) {
+    console.error(error);
+    return { error: "Error removing blogs" };
+  }
+}
+
 export const getBlog = async (id: string) => {
   return await db.blog.findUnique({
     where: {
