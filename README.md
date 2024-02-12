@@ -14,9 +14,12 @@ This project is about creating a blog app using Nextjs 14 and Prisma, where you 
 <h2>Usage:</h2>
 <ol>
 <li>Copy the content of `.env.example` file in a new `.env` file to get the URL's to connect to the database</li>
-<li>tap `npm install` to install all the dependencies that project relies on to function properly</li>
-<li>tap `npm run build` to compile, optimize, and prepare the project for the production</li>
-<li>tap `npm run start` to launch the application by default in localhost, port 3000</li>
+<li>There is a Makefile that compiles the project
+<ul>
+<li>make up: to run the application in the production mode</li>
+<li>make dev: to run the application in the development mode</li>
+</ul>
+</li>
 <li>run the application on http://localhost:3000</li>
 </ol>
 
