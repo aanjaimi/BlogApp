@@ -60,7 +60,7 @@ export const removeAllBlogs = async () => {
     console.error(error);
     return { error: "Error removing blogs" };
   }
-}
+};
 
 export const getBlog = async (id: string) => {
   return await db.blog.findUnique({
@@ -70,7 +70,10 @@ export const getBlog = async (id: string) => {
   });
 };
 
-export const updateBlog = async (id: string, values: z.infer<typeof BlogSchema>) => {
+export const updateBlog = async (
+  id: string,
+  values: z.infer<typeof BlogSchema>
+) => {
   const validate = BlogSchema.safeParse(values);
 
   if (!validate.success) {
@@ -100,4 +103,4 @@ export const updateBlog = async (id: string, values: z.infer<typeof BlogSchema>)
   });
 
   return { success: "Blog updated" };
-}
+};

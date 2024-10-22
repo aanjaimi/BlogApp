@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 import { Cairo } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { CustomSignIn } from "@/actions/signin";
 
 const Poppinsfont = Poppins({
   weight: ["600"],
@@ -17,9 +18,6 @@ const Cairofont = Cairo({
 
 const LandingPage = () => {
   const router = useRouter();
-  const handleRedirect = () => {
-    router.push("/home");
-  };
 
   return (
     <div className="body relative w-full h-full flex items-center justify-center shadow-lg p-4">
@@ -42,12 +40,15 @@ const LandingPage = () => {
             Go deeper into the world of blogs
           </div>
           <div>
+          <form
+            action={() => CustomSignIn()}
+          >
             <button
               className="bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8 mt-[30px]"
-              onClick={handleRedirect}
             >
-              Get Started
+              Get Started with 42
             </button>
+          </form>
           </div>
         </div>
       </div>
