@@ -21,6 +21,7 @@ This project is about creating a blog app using Nextjs 14 and Prisma, where you 
 </ul>
 </li>
 <li>run the application on http://localhost:3000</li>
+<li>It's also hosted in vercel via this link https://blog-app-mu-steel.vercel.app/</li>
 </ol>
 
 <h2>Features:</h2>
@@ -44,5 +45,3 @@ Landing Page
 </ul>
 </li>
 </ol>
-
-<h3>Hosted in vercel with this url https://blog-app-mu-steel.vercel.app/</h3>
