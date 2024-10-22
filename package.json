@@ -7,8 +7,8 @@
     "vercel-build": "next build",
     "start": "next start",
     "postinstall": "prisma generate",
-    "lint": "eslint --fix \"app/**/*.{js,jsx,ts,tsx}\"",
-    "format": "prettier --write \"app/**/*.{js,jsx,ts,tsx}\"",
+    "lint": "eslint --fix \"components/**/*.{js,jsx,ts,tsx}\"",
+    "format": "prettier --write \"components/**/*.{js,jsx,ts,tsx}\"",
     "build:icons": "tsc -b src/iconify-bundle && node src/iconify-bundle/bundle-icons-react.js"
   },
   "dependencies": {

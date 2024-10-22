@@ -1,6 +1,5 @@
 import React, { useState, useTransition } from "react";
-import { IoMdAddCircle } from "react-icons/io";
-import { TiDelete } from "react-icons/ti";
+import { IoMdAddCircle, IoIosCloseCircle } from "react-icons/io";
 import {
   Dialog,
   DialogContent,
@@ -39,9 +38,9 @@ const AddBlog = () => {
     <div className="border-b border-b-black w-full h-[80px] sm:h-[60px] flex justify-center sm:justify-end">
       {/* dialog for the delete all button */}
       <Dialog open={openDelete} onOpenChange={setOpeDelete}>
-        <DialogTrigger className="mx-[20px]">
-          <div className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl w-fit h-fit p-1 flex justify-center items-center space-x-2">
-            <TiDelete className="w-[33px] h-[33px]" />
+        <DialogTrigger className="mx-[10px]">
+          <div className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl w-fit h-fit p-1 flex justify-center items-center space-x-1">
+            <IoIosCloseCircle className="w-8 h-8" />
             <span className="text-[15px] pr-1 font-bold">Delete all</span>
           </div>
         </DialogTrigger>
@@ -68,7 +67,7 @@ const AddBlog = () => {
       {/* dialog for add blog button */}
       <Dialog open={openAdd} onOpenChange={setOpenAdd}>
         <DialogTrigger className="mx-[20px]">
-          <div className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl w-fit h-fit p-1 flex justify-center items-center space-x-2">
+          <div className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl w-fit h-fit p-1 flex justify-center items-center space-x-1">
             <IoMdAddCircle className="w-8 h-8" />
             <span className="text-[15px] pr-1 font-bold">Add Blog</span>
           </div>

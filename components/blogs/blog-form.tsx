@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useTransition } from "react";
+import React, { use, useEffect, useState, useTransition } from "react";
 import * as z from "zod";
 import { BlogSchema } from "../../schemas/index";
 import { useForm } from "react-hook-form";
@@ -15,26 +15,29 @@ import {
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { addBlog } from "@/actions/blogs";
+import { addBlog, getBlog, updateBlog } from "@/actions/blogs";
 import FormError from "../form-error";
 import FormSuccess from "../form-success";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Blog } from "@/types/blog";
 
 interface BlogFormProps {
   setOpenAdd: React.Dispatch<React.SetStateAction<boolean>>;
+  blog?: Blog;
 }
 
-const BlogForm = ({ setOpenAdd }: BlogFormProps) => {
+const BlogForm = ({ setOpenAdd, blog }: BlogFormProps) => {
   const router = useRouter();
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
+
   const form = useForm({
     resolver: zodResolver(BlogSchema),
     defaultValues: {
-      title: "",
-      content: "",
+      title: blog ? blog.title : "",
+      content: blog ? blog.content : "",
     },
   });
 
@@ -43,20 +46,37 @@ const BlogForm = ({ setOpenAdd }: BlogFormProps) => {
     setSuccess("");
     setOpenAdd(true);
     startTransition(() => {
-      addBlog(data)
-        .then((res) => {
-          if (res.error) setError(res.error);
-          if (res.success) {
-            setSuccess(res.success);
-            setOpenAdd(false);
-            toast.success(res.success);
-          }
-          form.reset();
-          router.push("/home");
-        })
-        .catch((err) => {
-          setError(err.error);
-        });
+      if (!blog) {
+        addBlog(data)
+          .then((res) => {
+            if (res.error) setError(res.error);
+            if (res.success) {
+              setSuccess(res.success);
+              setOpenAdd(false);
+              toast.success(res.success);
+            }
+            form.reset();
+            router.push("/home");
+          })
+          .catch((err) => {
+            setError(err.error);
+          });
+      } else {
+        updateBlog(blog.id, data)
+          .then((res) => {
+            if (res.error) setError(res.error);
+            if (res.success) {
+              setSuccess(res.success);
+              setOpenAdd(false);
+              toast.success(res.success);
+            }
+            form.reset();
+            router.push("/home");
+          })
+          .catch((err) => {
+            setError(err.error);
+          });
+      }
     });
   };
 
@@ -108,7 +128,7 @@ const BlogForm = ({ setOpenAdd }: BlogFormProps) => {
             <FormError message={error} />
             <FormSuccess message={success} />
             <Button type="submit" className="w-full" disabled={isPending}>
-              Add
+              {blog ? "Update" : "Add"}
             </Button>
           </div>
         </form>

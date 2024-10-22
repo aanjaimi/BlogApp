@@ -69,3 +69,35 @@ export const getBlog = async (id: string) => {
     },
   });
 };
+
+export const updateBlog = async (id: string, values: z.infer<typeof BlogSchema>) => {
+  const validate = BlogSchema.safeParse(values);
+
+  if (!validate.success) {
+    return { error: "Invalid blog data" };
+  }
+
+  const { title, content } = validate.data;
+
+  const existingBlog = await db.blog.findUnique({
+    where: {
+      title: title,
+    },
+  });
+
+  if (existingBlog && existingBlog.id !== id) {
+    return { error: "title already in use" };
+  }
+
+  await db.blog.update({
+    where: {
+      id,
+    },
+    data: {
+      title,
+      content,
+    },
+  });
+
+  return { success: "Blog updated" };
+}
