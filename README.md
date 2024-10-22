@@ -44,3 +44,5 @@ Landing Page
 </ul>
 </li>
 </ol>
+
+<h3>Hosted in vercel with this url https://blog-app-mu-steel.vercel.app/</h3>
