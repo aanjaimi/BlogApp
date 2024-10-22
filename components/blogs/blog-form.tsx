@@ -45,9 +45,8 @@ const BlogForm = ({ setOpenAdd }: BlogFormProps) => {
     startTransition(() => {
       addBlog(data)
         .then((res) => {
-          if (res.error)
-            setError(res.error);
-          if (res.success){
+          if (res.error) setError(res.error);
+          if (res.success) {
             setSuccess(res.success);
             setOpenAdd(false);
             toast.success(res.success);
@@ -64,7 +63,10 @@ const BlogForm = ({ setOpenAdd }: BlogFormProps) => {
   return (
     <div className="w-full">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col space-y-6"
+        >
           <FormField
             name="title"
             control={form.control}

@@ -49,8 +49,8 @@ const AddBlog = () => {
           <DialogHeader>
             <DialogTitle>Are you absolutely sure?</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. This will permanently delete all your
-              blogs and remove them from our servers.
+              This action cannot be undone. This will permanently delete all
+              your blogs and remove them from our servers.
             </DialogDescription>
           </DialogHeader>
           {/* this for the button of delete all */}
@@ -78,7 +78,7 @@ const AddBlog = () => {
             <DialogTitle>Add your blog here</DialogTitle>
             {/* this is the blog form in dialog content */}
             <div className="w-full">
-              <BlogForm setOpenAdd={setOpenAdd}/>
+              <BlogForm setOpenAdd={setOpenAdd} />
             </div>
           </DialogHeader>
         </DialogContent>

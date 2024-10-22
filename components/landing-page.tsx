@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import { Poppins } from "next/font/google";
 import { Cairo } from "next/font/google";
@@ -19,7 +19,7 @@ const LandingPage = () => {
   const router = useRouter();
   const handleRedirect = () => {
     router.push("/home");
-  }
+  };
 
   return (
     <div className="body relative w-full h-full flex items-center justify-center shadow-lg p-4">
@@ -42,7 +42,12 @@ const LandingPage = () => {
             Go deeper into the world of blogs
           </div>
           <div>
-            <button className="bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8 mt-[30px]" onClick={handleRedirect}>Get Started</button>
+            <button
+              className="bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8 mt-[30px]"
+              onClick={handleRedirect}
+            >
+              Get Started
+            </button>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { Blog } from "@/types/blog";
 import React, { useState, useTransition } from "react";
 import { FaTrashAlt } from "react-icons/fa";
