@@ -19,8 +19,13 @@ import { addBlog } from "@/actions/blogs";
 import FormError from "../form-error";
 import FormSuccess from "../form-success";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
-const BlogForm = () => {
+interface BlogFormProps {
+  setOpenAdd: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const BlogForm = ({ setOpenAdd }: BlogFormProps) => {
   const router = useRouter();
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -36,13 +41,17 @@ const BlogForm = () => {
   const onSubmit = (data: z.infer<typeof BlogSchema>) => {
     setError("");
     setSuccess("");
+    setOpenAdd(true);
     startTransition(() => {
       addBlog(data)
         .then((res) => {
           if (res.error)
             setError(res.error);
-          if (res.success)
+          if (res.success){
             setSuccess(res.success);
+            setOpenAdd(false);
+            toast.success(res.success);
+          }
           form.reset();
           router.push("/home");
         })

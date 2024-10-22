@@ -1,6 +1,6 @@
 'use client';
 import { Blog } from "@/types/blog";
-import React, { useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { HiOutlineArrowsExpand } from "react-icons/hi";
 import { useRouter } from "next/navigation";
@@ -28,6 +28,7 @@ type DisplayBlogProps = {
 const DisplayBlog = ({ blog }: DisplayBlogProps) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [open, setOpen] = useState(false);
   const content = blog.content.substring(0, 50);
   const bigger = blog.content.length > 50;
   const date = blog.createdAt.toLocaleDateString("en-US", {
@@ -41,7 +42,8 @@ const DisplayBlog = ({ blog }: DisplayBlogProps) => {
   });
 
   const handleRemove = (id: string) => {
-    startTransition(() => {
+    setOpen(true);
+    startTransition(async () => {
       removeBlog(id).then((res) => {
         if (res.success) {
           toast.success(res.success);
@@ -51,6 +53,7 @@ const DisplayBlog = ({ blog }: DisplayBlogProps) => {
         }
       });
     });
+    setOpen(false);
   };
 
   return (
@@ -64,7 +67,7 @@ const DisplayBlog = ({ blog }: DisplayBlogProps) => {
         {/* delete and expand blog */}
         <div className="flex justify-end">
           {/* delete blog */}
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="flex justify-center rounded-full w-6 h-6 hover:bg-slate-200">
               <HoverCard>
                 <HoverCardTrigger>

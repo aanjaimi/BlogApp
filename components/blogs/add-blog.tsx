@@ -1,4 +1,4 @@
-import React, { useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { TiDelete } from "react-icons/ti";
 import {
@@ -16,10 +16,13 @@ import { toast } from "sonner";
 
 const AddBlog = () => {
   const [isPending, startTransition] = useTransition();
+  const [openAdd, setOpenAdd] = useState(false);
+  const [openDelete, setOpeDelete] = useState(false);
 
   // this function for removing all blogs
   const handleRemoveAll = () => {
-    startTransition(() => {
+    setOpeDelete(true);
+    startTransition(async () => {
       removeAllBlogs().then((res) => {
         if (res.success) {
           toast.success(res.success);
@@ -29,12 +32,13 @@ const AddBlog = () => {
         }
       });
     });
+    setOpeDelete(false);
   };
 
   return (
     <div className="border-b border-b-black w-full h-[80px] sm:h-[60px] flex justify-center sm:justify-end">
       {/* dialog for the delete all button */}
-      <Dialog>
+      <Dialog open={openDelete} onOpenChange={setOpeDelete}>
         <DialogTrigger className="mx-[20px]">
           <div className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl w-fit h-fit p-1 flex justify-center items-center space-x-2">
             <TiDelete className="w-[33px] h-[33px]" />
@@ -52,7 +56,7 @@ const AddBlog = () => {
           {/* this for the button of delete all */}
           <span className="w-full flex justify-center items-center">
             <Button
-              onClick={handleRemoveAll}
+              onClick={() => handleRemoveAll()}
               className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
               disabled={isPending}
             >
@@ -62,7 +66,7 @@ const AddBlog = () => {
         </DialogContent>
       </Dialog>
       {/* dialog for add blog button */}
-      <Dialog>
+      <Dialog open={openAdd} onOpenChange={setOpenAdd}>
         <DialogTrigger className="mx-[20px]">
           <div className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl w-fit h-fit p-1 flex justify-center items-center space-x-2">
             <IoMdAddCircle className="w-8 h-8" />
@@ -74,7 +78,7 @@ const AddBlog = () => {
             <DialogTitle>Add your blog here</DialogTitle>
             {/* this is the blog form in dialog content */}
             <div className="w-full">
-              <BlogForm />
+              <BlogForm setOpenAdd={setOpenAdd}/>
             </div>
           </DialogHeader>
         </DialogContent>
