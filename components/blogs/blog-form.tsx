@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useEffect, useState, useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import * as z from "zod";
 import { BlogSchema } from "../../schemas/index";
 import { useForm } from "react-hook-form";
@@ -15,12 +15,13 @@ import {
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { addBlog, getBlog, updateBlog } from "@/actions/blogs";
+import { addBlog, updateBlog } from "@/actions/blogs";
 import FormError from "../form-error";
 import FormSuccess from "../form-success";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Blog } from "@/types/blog";
+import { useSession } from "next-auth/react";
 
 interface BlogFormProps {
   setOpenAdd: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,6 +33,7 @@ const BlogForm = ({ setOpenAdd, blog }: BlogFormProps) => {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
+  const session = useSession()
 
   const form = useForm({
     resolver: zodResolver(BlogSchema),
@@ -47,7 +49,7 @@ const BlogForm = ({ setOpenAdd, blog }: BlogFormProps) => {
     setOpenAdd(true);
     startTransition(() => {
       if (!blog) {
-        addBlog(data)
+        addBlog(data, session.data?.user?.id as string)
           .then((res) => {
             if (res.error) setError(res.error);
             if (res.success) {
@@ -62,7 +64,7 @@ const BlogForm = ({ setOpenAdd, blog }: BlogFormProps) => {
             setError(err.error);
           });
       } else {
-        updateBlog(blog.id, data)
+        updateBlog(blog.id, data, session.data?.user?.id as string)
           .then((res) => {
             if (res.error) setError(res.error);
             if (res.success) {

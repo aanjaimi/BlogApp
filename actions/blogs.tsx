@@ -1,26 +1,26 @@
 "use server";
 import * as z from "zod";
-import { BlogSchema } from "../schemas";
+import { BlogSchema } from "@/schemas/index";
 import { db } from "../lib/db";
+import { Blog } from "@/types/blog";
+import { useSession } from "next-auth/react";
+import { getToken } from "next-auth/jwt";
 
 //group of actions for the database operations: add blog, get blogs, remove blog, remove all blogs, get blog by id
 
-export const addBlog = async (values: z.infer<typeof BlogSchema>) => {
-  const validate = BlogSchema.safeParse(values);
+export const addBlog = async (values: z.infer<typeof BlogSchema>, userId: string) => {
+  const { title, content } = values;
 
-  if (!validate.success) {
-    return { error: "Invalid blog data" };
-  }
-
-  const { title, content } = validate.data;
-
-  const existingBlog = await db.blog.findUnique({
+  const existingBlog = await db.blog.findMany({
     where: {
-      title: title,
+      AND: [
+        { title: title },
+        { userId: userId },
+      ],
     },
   });
 
-  if (existingBlog) {
+  if (existingBlog.length > 0) {
     return { error: "title already in use" };
   }
 
@@ -28,14 +28,23 @@ export const addBlog = async (values: z.infer<typeof BlogSchema>) => {
     data: {
       title,
       content,
+      userId,
     },
   });
 
   return { success: "Your blog have been created!" };
 };
 
-export const getBlogs = async () => {
-  return await db.blog.findMany();
+export const getBlogs = async (userId: string | undefined) => {
+  if (!userId) {
+    return [];
+  }
+
+  return await db.blog.findMany({
+    where: {
+      userId
+    }
+  });
 };
 
 export const removeBlog = async (id: string) => {
@@ -52,9 +61,13 @@ export const removeBlog = async (id: string) => {
   }
 };
 
-export const removeAllBlogs = async () => {
+export const removeAllBlogs = async (userId: string) => {
   try {
-    await db.blog.deleteMany({});
+    await db.blog.deleteMany({
+      where: {
+        userId
+      },
+    });
     return { success: "All blogs removed" };
   } catch (error) {
     console.error(error);
@@ -72,23 +85,22 @@ export const getBlog = async (id: string) => {
 
 export const updateBlog = async (
   id: string,
-  values: z.infer<typeof BlogSchema>
+  values: z.infer<typeof BlogSchema>,
+  userId: string
 ) => {
-  const validate = BlogSchema.safeParse(values);
 
-  if (!validate.success) {
-    return { error: "Invalid blog data" };
-  }
+  const { title, content } = values;
 
-  const { title, content } = validate.data;
-
-  const existingBlog = await db.blog.findUnique({
+  const existingBlog = await db.blog.findMany({
     where: {
-      title: title,
+      AND: [
+        { title: title },
+        { userId: userId },
+      ],
     },
   });
 
-  if (existingBlog && existingBlog.id !== id) {
+  if (existingBlog.length != 1 || existingBlog[0].id != id) {
     return { error: "title already in use" };
   }
 

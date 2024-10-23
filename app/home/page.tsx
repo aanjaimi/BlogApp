@@ -5,17 +5,20 @@ import BlogList from "@/components/blogs/blog-list";
 import { Blog } from "@/types/blog";
 import { getBlogs } from "@/actions/blogs";
 import LoadingPage from "@/components/loading-page";
+import { useSession } from "next-auth/react";
 
 const Homepage = () => {
   const [blogs, setBlogs] = useState<Blog[] | null>(null);
+  const session = useSession();
 
   // fetch form blogs
   useEffect(() => {
-    const resp = getBlogs();
+    if (!session.data?.user?.id) return
+    const resp = getBlogs(session.data?.user?.id);
     resp.then((res) => {
       setBlogs(res);
     });
-  }, [blogs]);
+  }, [session.data?.user?.id]);
 
   if (!blogs) {
     return <LoadingPage />;

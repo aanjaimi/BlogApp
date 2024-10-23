@@ -46,6 +46,7 @@ model User {
   login         String?   @unique
   accounts      Account[]
   sessions      Session[]
+  blogs         Blog[]
 }
 
 model VerificationToken {
@@ -62,4 +63,6 @@ model Blog {
   title              String   @unique
   content            String
   createdAt          DateTime @default(now())
+  userId             String
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
