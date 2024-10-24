@@ -41,7 +41,6 @@ export const { handlers, signIn, signOut, auth, unstable_update: update, } = Nex
     })],
     callbacks: {
         async jwt({ token, user }: { token: JWT; user: User }) {
-            console.log('JWT Callback', { token, user })
             if (user) {
                 token.id = user.id
                 token.login = user.login
@@ -50,7 +49,6 @@ export const { handlers, signIn, signOut, auth, unstable_update: update, } = Nex
         },
 
         async session({ session, token }: { session: Session; token: JWT }) {
-            console.log('Session Callback', { session, token })
             if (token && session.user) {
                 session.user.id = token.id
                 session.user.login = token.login
