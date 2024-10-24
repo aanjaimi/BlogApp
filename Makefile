@@ -6,7 +6,7 @@ up:
 	$(PRISMA) generate
 	$(PRISMA) db push
 	$(NPM) install 
-	$(NPM) run build 
+	$(NPM) run vercel-build 
 	$(NPM) run start
 
 # development mode

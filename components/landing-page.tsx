@@ -22,10 +22,10 @@ const LandingPage = () => {
   return (
     <div className="body relative w-full h-full flex items-center justify-center shadow-lg p-4">
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-full h-full bg-opacity-40 bg-orange-400 flex flex-col items-center justify-center">
+        <div className="w-full h-full bg-gray-500 flex flex-col items-center justify-center">
           <div
             className={cn(
-              "flex text-[40px] sm:text-[120px] text-white font-bold",
+              "flex text-[40px] sm:text-[120px] text-black font-bold",
               Poppinsfont.className
             )}
           >
@@ -33,7 +33,7 @@ const LandingPage = () => {
           </div>
           <div
             className={cn(
-              "flex text-[20px] sm:text-[30px] text-white font-bold",
+              "flex text-[20px] sm:text-[30px] text-black font-bold",
               Cairofont.className
             )}
           >

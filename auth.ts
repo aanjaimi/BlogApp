@@ -39,4 +39,5 @@ export const { handlers, signIn, signOut, auth, unstable_update: update, } = Nex
             return session
         },
     },
+    trustHost: true,
 })

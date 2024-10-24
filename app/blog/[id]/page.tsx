@@ -41,7 +41,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         <Button onClick={() => router.push("/home")}>Back to Blogs</Button>
       </div>
       {/* blog title, content, date and time */}
-      <div className="w-[90%] h-[90%] flex flex-col items-center justify-between">
+      <div className="w-[90%] h-[90%] flex flex-col items-center bg-gray-500 border border-gray-500 rounded-md justify-between">
         {/* blog title */}
         <h1 className="text-[30px] sm:text-[50px] w-full h-[100px] bg-white bg-opacity-60 py-1 sm:py-5 font-bold flex items-center justify-center">
           {blog.title}
