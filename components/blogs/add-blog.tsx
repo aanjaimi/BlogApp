@@ -26,41 +26,35 @@ import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { capitalizeFirstLetters } from "@/lib/utils";
 import { CustomSignOut } from "@/actions/signin";
+import { useAppDispatch } from "@/lib/hooks";
+import { deleteAllBlogs } from "@/lib/blogs/createAsyncThunk";
 
 const AddBlog = () => {
   const [isPending, startTransition] = useTransition();
   const [openAdd, setOpenAdd] = useState(false);
-  const [openDelete, setOpeDelete] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const session = useSession();
+  const dispatch = useAppDispatch();
 
 
   // this function for removing all blogs
   const handleRemoveAll = () => {
-    setOpeDelete(true);
+    setOpenDelete(true);
     startTransition(async () => {
-      removeAllBlogs(session.data?.user?.id as string).then((res) => {
-        if (res.success) {
-          toast.success(res.success);
-        }
-        if (res.error) {
-          toast.error(res.error);
-        }
-      });
+      dispatch(deleteAllBlogs(session.data?.user?.id as string))
     });
-    setOpeDelete(false);
+    setOpenDelete(false);
   };
-
-  console.log("USER: ", session.data?.user)
 
   if (!session.data || !session.data.user) return null
 
   return (
-    <div className="flex border-b border-b-black">
+    <div className="flex border-b border-grey">
       <div className="w-full h-[80px] sm:h-[60px] flex justify-start sm:justify-start">
         {/* dialog for add blog button */}
         <Dialog open={openAdd} onOpenChange={setOpenAdd}>
           <DialogTrigger className="mx-[10px]">
-            <div className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl w-fit h-fit p-1 flex justify-center items-center space-x-1">
+            <div className="bg-gray-700 text-primary-foreground hover:bg-primary/90 rounded-xl w-fit h-fit p-1 flex justify-center items-center space-x-1">
               <IoMdAddCircle className="w-8 h-8" />
               <span className="text-[15px] pr-1 font-bold">Add Blog</span>
             </div>
@@ -76,9 +70,9 @@ const AddBlog = () => {
           </DialogContent>
         </Dialog>
         {/* dialog for the delete all button */}
-        <Dialog open={openDelete} onOpenChange={setOpeDelete}>
+        <Dialog open={openDelete} onOpenChange={setOpenDelete}>
           <DialogTrigger className="mx-[10px]">
-            <div className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl w-fit h-fit p-1 flex justify-center items-center space-x-1">
+            <div className="bg-gray-700 text-primary-foreground hover:bg-primary/90 rounded-xl w-fit h-fit p-1 flex justify-center items-center space-x-1">
               <IoIosCloseCircle className="w-8 h-8" />
               <span className="text-[15px] pr-1 font-bold">Delete all</span>
             </div>

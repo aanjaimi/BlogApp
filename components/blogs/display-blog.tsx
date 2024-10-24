@@ -5,7 +5,6 @@ import { FaTrashAlt } from "react-icons/fa";
 import { HiOutlineArrowsExpand } from "react-icons/hi";
 import { MdOutlineUpdate } from "react-icons/md";
 import { useRouter } from "next/navigation";
-import { removeBlog } from "@/actions/blogs";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -22,6 +21,8 @@ import {
 } from "@/components/ui/hover-card";
 import { Button } from "../ui/button";
 import BlogForm from "./blog-form";
+import { useAppDispatch } from "@/lib/hooks";
+import { deleteBlog } from "@/lib/blogs/createAsyncThunk";
 
 type DisplayBlogProps = {
   blog: Blog;
@@ -29,17 +30,18 @@ type DisplayBlogProps = {
 
 const DisplayBlog = ({ blog }: DisplayBlogProps) => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
   const [openAdd, setOpenAdd] = useState(false);
   const content = blog.content.substring(0, 20);
   const bigger = blog.content.length > 20;
-  const date = blog.createdAt.toLocaleDateString("en-US", {
+  const date = (new Date(blog.createdAt)).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
   });
-  const time = blog.createdAt.toLocaleTimeString("en-US", {
+  const time = (new Date(blog.createdAt)).toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -47,20 +49,13 @@ const DisplayBlog = ({ blog }: DisplayBlogProps) => {
   const handleRemove = (id: string) => {
     setOpen(true);
     startTransition(async () => {
-      removeBlog(id).then((res) => {
-        if (res.success) {
-          toast.success(res.success);
-        }
-        if (res.error) {
-          toast.error(res.error);
-        }
-      });
+      dispatch(deleteBlog(blog))
     });
     setOpen(false);
   };
 
   return (
-    <div className="max-w-[200px] min-w-[200px] sm:max-w-[400px] sm:min-w-[400px] flex flex-col bg-white space-y-10 m-6">
+    <div className="border-[0.5px] drop-shadow-lg border-grey rounded-md max-w-[200px] min-w-[200px] sm:max-w-[400px] sm:min-w-[400px] flex flex-col bg-white space-y-10 m-6">
       {/* part of date, time, remove and display */}
       <div className="mt-[10px] flex justify-between">
         {/* date and time */}

@@ -1,23 +1,22 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import AddBlog from "@/components/blogs/add-blog";
 import BlogList from "@/components/blogs/blog-list";
-import { Blog } from "@/types/blog";
-import { getBlogs } from "@/actions/blogs";
 import LoadingPage from "@/components/loading-page";
 import { useSession } from "next-auth/react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { fetchBlogs } from "@/lib/blogs/createAsyncThunk";
 
 const Homepage = () => {
-  const [blogs, setBlogs] = useState<Blog[] | null>(null);
   const session = useSession();
+  const dispatch = useAppDispatch();
+  const blogs = useAppSelector((state) => state.blogReducer.blogs);
 
   // fetch form blogs
   useEffect(() => {
     if (!session.data?.user?.id) return
-    const resp = getBlogs(session.data?.user?.id);
-    resp.then((res) => {
-      setBlogs(res);
-    });
+    dispatch(fetchBlogs(session.data?.user?.id));
+    // eslint-disable-next-line
   }, [session.data?.user?.id]);
 
   if (!blogs) {
@@ -27,7 +26,7 @@ const Homepage = () => {
   return (
     // home page
     <div className="body w-screen h-screen flex items-center justify-center">
-      <div className="bg-opacity-70 bg-orange-200 w-[90%] h-[90%] flex flex-col">
+      <div className="bg-gray-100 w-[90%] h-[90%] drop-shadow-md flex flex-col border border-grey rounded-lg">
         <AddBlog />
         <BlogList blogs={blogs} />
       </div>

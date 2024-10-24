@@ -2,13 +2,9 @@
 import * as z from "zod";
 import { BlogSchema } from "@/schemas/index";
 import { db } from "../lib/db";
-import { Blog } from "@/types/blog";
-import { useSession } from "next-auth/react";
-import { getToken } from "next-auth/jwt";
-
 //group of actions for the database operations: add blog, get blogs, remove blog, remove all blogs, get blog by id
 
-export const addBlog = async (values: z.infer<typeof BlogSchema>, userId: string) => {
+export const addBlogAction = async (values: z.infer<typeof BlogSchema>, userId: string) => {
   const { title, content } = values;
 
   const existingBlog = await db.blog.findMany({
@@ -47,7 +43,7 @@ export const getBlogs = async (userId: string | undefined) => {
   });
 };
 
-export const removeBlog = async (id: string) => {
+export const removeBlogAction = async (id: string) => {
   try {
     await db.blog.delete({
       where: {
@@ -56,7 +52,6 @@ export const removeBlog = async (id: string) => {
     });
     return { success: "Blog removed" };
   } catch (error) {
-    console.error(error);
     return { error: "Error removing blog" };
   }
 };
@@ -70,7 +65,6 @@ export const removeAllBlogs = async (userId: string) => {
     });
     return { success: "All blogs removed" };
   } catch (error) {
-    console.error(error);
     return { error: "Error removing blogs" };
   }
 };
@@ -83,7 +77,7 @@ export const getBlog = async (id: string) => {
   });
 };
 
-export const updateBlog = async (
+export const updateBlogAction = async (
   id: string,
   values: z.infer<typeof BlogSchema>,
   userId: string
@@ -100,7 +94,7 @@ export const updateBlog = async (
     },
   });
 
-  if (existingBlog.length != 1 || existingBlog[0].id != id) {
+  if (existingBlog.length > 0 && existingBlog[0].id != id) {
     return { error: "title already in use" };
   }
 

@@ -15,13 +15,14 @@ import {
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { addBlog, updateBlog } from "@/actions/blogs";
 import FormError from "../form-error";
 import FormSuccess from "../form-success";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Blog } from "@/types/blog";
 import { useSession } from "next-auth/react";
+import { useAppDispatch } from "@/lib/hooks";
+import { addBlog, updateBlog } from "@/lib/blogs/createAsyncThunk";
 
 interface BlogFormProps {
   setOpenAdd: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,6 +31,7 @@ interface BlogFormProps {
 
 const BlogForm = ({ setOpenAdd, blog }: BlogFormProps) => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
@@ -49,35 +51,38 @@ const BlogForm = ({ setOpenAdd, blog }: BlogFormProps) => {
     setOpenAdd(true);
     startTransition(() => {
       if (!blog) {
-        addBlog(data, session.data?.user?.id as string)
-          .then((res) => {
-            if (res.error) setError(res.error);
-            if (res.success) {
-              setSuccess(res.success);
-              setOpenAdd(false);
-              toast.success(res.success);
-            }
-            form.reset();
-            router.push("/home");
-          })
-          .catch((err) => {
-            setError(err.error);
-          });
+        dispatch(addBlog( {blog: data, userId: session.data?.user?.id as string}))
+        setOpenAdd(false);
+        // addBlog(data, session.data?.user?.id as string)
+        //   .then((res) => {
+        //     if (res.error) setError(res.error);
+        //     if (res.success) {
+        //       setSuccess(res.success);
+        //       setOpenAdd(false);
+        //       toast.success(res.success);
+        //     }
+        //     form.reset();
+        //     router.push("/home");
+        //   })
+        //   .catch((err) => {
+        //     setError(err.error);
+        //   });
       } else {
-        updateBlog(blog.id, data, session.data?.user?.id as string)
-          .then((res) => {
-            if (res.error) setError(res.error);
-            if (res.success) {
-              setSuccess(res.success);
-              setOpenAdd(false);
-              toast.success(res.success);
-            }
-            form.reset();
-            router.push("/home");
-          })
-          .catch((err) => {
-            setError(err.error);
-          });
+        dispatch(updateBlog({blogId: blog.id, blog: data, userId: session.data?.user?.id as string}))
+        setOpenAdd(false);
+          // .then((res) => {
+          //   if (res.error) setError(res.error);
+          //   if (res.success) {
+          //     setSuccess(res.success);
+          //     setOpenAdd(false);
+          //     toast.success(res.success);
+          //   }
+          //   form.reset();
+          //   router.push("/home");
+          // })
+          // .catch((err) => {
+          //   setError(err.error);
+          // });
       }
     });
   };
