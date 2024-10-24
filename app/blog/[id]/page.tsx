@@ -6,6 +6,7 @@ import LoadingPage from "@/components/loading-page";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { LuMoveLeft } from "react-icons/lu";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
@@ -35,22 +36,20 @@ const Page = ({ params }: { params: { id: string } }) => {
   });
 
   return (
-    <div className="body w-screen h-screen flex flex-col items-center justify-center space-y-4">
-      {/* back to home page */}
-      <div className="w-[80%] h-[5%] flex justify-center">
-        <Button onClick={() => router.push("/home")}>Back to Blogs</Button>
+    <div className="container body w-screen h-screen flex flex-col items-center justify-center space-y-4">
+      <div className="w-full flex justify-start">
+        <Button className="space-x-2" variant='outline' onClick={() => router.push("/home")}>
+          <LuMoveLeft />
+          <span>Back to Blogs</span>
+        </Button>
       </div>
-      {/* blog title, content, date and time */}
-      <div className="w-[90%] h-[90%] flex flex-col items-center bg-gray-500 border border-gray-500 rounded-md justify-between">
-        {/* blog title */}
+      <div className="w-full h-[90%] flex flex-col items-center border border-gray-500 rounded-md justify-between">
         <h1 className="text-[30px] sm:text-[50px] w-full h-[100px] bg-white bg-opacity-60 py-1 sm:py-5 font-bold flex items-center justify-center">
           {blog.title}
         </h1>
-        {/* blog content as scroll area */}
-        <ScrollArea className="p-2 bg-white w-full h-full bg-opacity-40 text-[15px] sm:text-[20px] flex items-center justify-center">
+        <ScrollArea className="px-4 py-2 bg-white w-full border-y h-full bg-opacity-40 text-[15px] sm:text-[20px] flex items-center justify-center">
           {blog.content}
         </ScrollArea>
-        {/* blog date and time */}
         <div className="text-[15px] sm:text-[20px] bg-white bg-opacity-60 w-full h-[100px] py-1 sm:py-5 flex items-center justify-center">
           <span>
             {date} {time}

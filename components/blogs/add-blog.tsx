@@ -21,8 +21,6 @@ import {
 } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import BlogForm from "./blog-form";
-import { removeAllBlogs } from "@/actions/blogs";
-import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { capitalizeFirstLetters } from "@/lib/utils";
 import { CustomSignOut } from "@/actions/signin";
@@ -51,31 +49,28 @@ const AddBlog = () => {
   return (
     <div className="flex border-b border-grey">
       <div className="w-full h-[80px] sm:h-[60px] flex justify-start sm:justify-start">
-        {/* dialog for add blog button */}
         <Dialog open={openAdd} onOpenChange={setOpenAdd}>
           <DialogTrigger className="mx-[10px]">
-            <div className="bg-gray-700 text-primary-foreground hover:bg-primary/90 rounded-xl w-fit h-fit p-1 flex justify-center items-center space-x-1">
-              <IoMdAddCircle className="w-8 h-8" />
-              <span className="text-[15px] pr-1 font-bold">Add Blog</span>
-            </div>
+            <Button className="bg-gray-700 gap-1 text-primary-foreground hover:bg-primary/90 rounded-lg w-fit h-fit flex justify-center items-center space-x-1">
+              <IoMdAddCircle className="size-5" />
+              <span className="">Add Blog</span>
+            </Button>
           </DialogTrigger>
           <DialogContent className="sm:w-[400px] w-[250px]">
             <DialogHeader className="flex flex-col items-center space-y-6">
               <DialogTitle>Add your blog here</DialogTitle>
-              {/* this is the blog form in dialog content */}
               <div className="w-full">
                 <BlogForm setOpenAdd={setOpenAdd} />
               </div>
             </DialogHeader>
           </DialogContent>
         </Dialog>
-        {/* dialog for the delete all button */}
         <Dialog open={openDelete} onOpenChange={setOpenDelete}>
           <DialogTrigger className="mx-[10px]">
-            <div className="bg-gray-700 text-primary-foreground hover:bg-primary/90 rounded-xl w-fit h-fit p-1 flex justify-center items-center space-x-1">
-              <IoIosCloseCircle className="w-8 h-8" />
-              <span className="text-[15px] pr-1 font-bold">Delete all</span>
-            </div>
+            <Button className="bg-gray-700 gap-1 text-primary-foreground hover:bg-primary/90 rounded-lg w-fit h-fit flex justify-center items-center space-x-1">
+              <IoIosCloseCircle className="size-5" />
+              <span className="">Delete All</span>
+            </Button>
           </DialogTrigger>
           <DialogContent className="sm:w-[400px] w-[250px]">
             <DialogHeader>
@@ -85,7 +80,6 @@ const AddBlog = () => {
                 your blogs and remove them from our servers.
               </DialogDescription>
             </DialogHeader>
-            {/* this for the button of delete all */}
             <span className="w-full flex justify-center items-center">
               <Button
                 onClick={() => handleRemoveAll()}

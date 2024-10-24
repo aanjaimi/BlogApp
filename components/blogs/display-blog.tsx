@@ -56,15 +56,11 @@ const DisplayBlog = ({ blog }: DisplayBlogProps) => {
 
   return (
     <div className="border-[0.5px] drop-shadow-lg border-grey rounded-md max-w-[200px] min-w-[200px] sm:max-w-[400px] sm:min-w-[400px] flex flex-col bg-white space-y-10 m-6">
-      {/* part of date, time, remove and display */}
       <div className="mt-[10px] flex justify-between">
-        {/* date and time */}
         <div className="ml-[10px]">
           {date} {time}
         </div>
-        {/* delete and expand blog */}
         <div className="flex justify-end space-x-2">
-          {/* delete blog */}
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="flex justify-center w-4 h-6 hover:bg-slate-200">
               <HoverCard>
@@ -95,7 +91,6 @@ const DisplayBlog = ({ blog }: DisplayBlogProps) => {
               </span>
             </DialogContent>
           </Dialog>
-          {/* update blog */}
           <Dialog open={openAdd} onOpenChange={setOpenAdd}>
             <DialogTrigger className="">
               <HoverCard>
@@ -110,14 +105,12 @@ const DisplayBlog = ({ blog }: DisplayBlogProps) => {
             <DialogContent className="sm:w-[400px] w-[250px]">
               <DialogHeader className="flex flex-col items-center space-y-6">
                 <DialogTitle>Update your blog here</DialogTitle>
-                {/* this is the blog form in dialog content */}
                 <div className="w-full">
                   <BlogForm setOpenAdd={setOpenAdd} blog={blog} />
                 </div>
               </DialogHeader>
             </DialogContent>
           </Dialog>
-          {/* expand blog */}
           <HoverCard>
             <HoverCardTrigger className="">
               <HiOutlineArrowsExpand
@@ -131,11 +124,9 @@ const DisplayBlog = ({ blog }: DisplayBlogProps) => {
           </HoverCard>
         </div>
       </div>
-      {/* blog title */}
       <h1 className="flex items-center justify-center text-[20px] md:text-[30px] font-bold">
         {blog.title}
       </h1>
-      {/* blog content display 20 characters at most */}
       <p className="p-2 text-[15px] md:text-[20px] flex items-center justify-center">
         {bigger ? <div>{content}...</div> : <div>{content}</div>}
       </p>
