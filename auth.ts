@@ -24,9 +24,24 @@ export const { handlers, signIn, signOut, auth, unstable_update: update, } = Nex
     providers: [FortyTwoSchool({
         clientId: process.env.AUTH_42_SCHOOL_ID,
         clientSecret: process.env.AUTH_42_SCHOOL_SECRET,
+        authorization: {
+            params: {
+                scope: "public",
+            },
+        },
+        profile(profile) {
+            return {
+                id: profile.id.toString(),
+                login: profile.login,
+                email: profile.email,
+                name: profile.displayname,
+                image: profile.image_url,
+            }
+        }
     })],
     callbacks: {
         async jwt({ token, user }: { token: JWT; user: User }) {
+            console.log('JWT Callback', { token, user })
             if (user) {
                 token.id = user.id
                 token.login = user.login
@@ -35,6 +50,7 @@ export const { handlers, signIn, signOut, auth, unstable_update: update, } = Nex
         },
 
         async session({ session, token }: { session: Session; token: JWT }) {
+            console.log('Session Callback', { session, token })
             if (token && session.user) {
                 session.user.id = token.id
                 session.user.login = token.login
@@ -44,6 +60,7 @@ export const { handlers, signIn, signOut, auth, unstable_update: update, } = Nex
     },
     pages: {
         error: "/auth/error",
+        signIn: "/auth/signin",
     },
     debug: process.env.NODE_ENV === "development",
     trustHost: true,
