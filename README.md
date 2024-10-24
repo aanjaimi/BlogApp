@@ -15,10 +15,9 @@ This project is about creating a blog app using Nextjs 14 and Prisma, where you 
 <h2>Usage:</h2>
 <ol>
 <li>Copy the content of `.env.example` file in a new `.env` file to get the URL's to connect to the database</li>
-<li>There is a Makefile that compiles the project
+<li>There is a docker-compose that manage the project
 <ul>
-<li>make up: to run the application in the production mode</li>
-<li>make dev: to run the application in the development mode</li>
+<li>run docker-compose up --build</li>
 </ul>
 </li>
 <li>The application will be running on http://localhost:3000</li>
