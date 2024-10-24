@@ -7,7 +7,7 @@ import { PrismaNeon } from "@prisma/adapter-neon"
 import { Pool } from "@neondatabase/serverless"
 import type { User, Session, JWT } from '@/next-auth.d.ts'
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: true })
 const prismaNeon = new PrismaNeon(pool)
 export const prisma = new PrismaClient({ adapter: prismaNeon })
 
@@ -21,7 +21,10 @@ export const { handlers, signIn, signOut, auth, unstable_update: update, } = Nex
         maxAge: 60 * 60,
     },
     adapter: PrismaAdapter(prisma),
-    providers: [FortyTwoSchool],
+    providers: [FortyTwoSchool({
+        clientId: process.env.AUTH_42_SCHOOL_ID,
+        clientSecret: process.env.AUTH_42_SCHOOL_SECRET,
+    })],
     callbacks: {
         async jwt({ token, user }: { token: JWT; user: User }) {
             if (user) {
@@ -39,5 +42,9 @@ export const { handlers, signIn, signOut, auth, unstable_update: update, } = Nex
             return session
         },
     },
+    pages: {
+        error: "/auth/error",
+    },
+    debug: process.env.NODE_ENV === "development",
     trustHost: true,
 })
