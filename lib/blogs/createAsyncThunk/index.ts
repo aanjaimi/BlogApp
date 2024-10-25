@@ -8,9 +8,9 @@ import { toast } from 'sonner'
 // ** Fetch Blogs
 export const fetchBlogs = createAsyncThunk(
     'blogList/fetchBlogs',
-    async (userId: string) => {
+    async () => {
         try {
-            const blogs = await getBlogs(userId)
+            const blogs = await getBlogs()
 
             return blogs.map(blog => ({
                 ...blog,
@@ -38,8 +38,8 @@ export const fetchBlog = createAsyncThunk(
 // ** Add Blog
 export const addBlog = createAsyncThunk(
     'blogList/addBlog',
-    async ({ blog, userId } : {blog: z.infer<typeof BlogSchema>, userId: string}, { dispatch }) => {
-        const addedBlog = await addBlogAction(blog, userId)
+    async (blog: z.infer<typeof BlogSchema>, { dispatch }) => {
+        const addedBlog = await addBlogAction(blog)
 
         const { error } = addedBlog
         if (error) {
@@ -47,7 +47,7 @@ export const addBlog = createAsyncThunk(
             return error
         }
 
-        await dispatch(fetchBlogs(userId))
+        await dispatch(fetchBlogs())
 
         toast.success('Blog Added Successfully')
 
@@ -58,8 +58,8 @@ export const addBlog = createAsyncThunk(
 // ** Update Blog
 export const updateBlog = createAsyncThunk(
     'blogList/updateBlog',
-    async ({ blog, userId, blogId } : {blog: z.infer<typeof BlogSchema>, userId: string, blogId: string}, { dispatch }) => {
-        const updatedBlog = await updateBlogAction(blogId, blog, userId)
+    async ({ blog, blogId } : {blog: z.infer<typeof BlogSchema>, blogId: string}, { dispatch }) => {
+        const updatedBlog = await updateBlogAction(blogId, blog)
 
         const { error } = updatedBlog
         if (error) {
@@ -67,7 +67,7 @@ export const updateBlog = createAsyncThunk(
             return error
         }
 
-        await dispatch(fetchBlogs(userId))
+        await dispatch(fetchBlogs())
 
         toast.success('Blog Updated Successfully')
 
@@ -87,7 +87,7 @@ export const deleteBlog = createAsyncThunk(
             return error
         }
 
-        await dispatch(fetchBlogs(blog.userId))
+        await dispatch(fetchBlogs())
 
         toast.success('Blog Deleted Successfully')
 
@@ -99,7 +99,7 @@ export const deleteBlog = createAsyncThunk(
 export const deleteAllBlogs = createAsyncThunk(
     'blogList/deleteAllBlogs',
     async (userId: string, { dispatch }) => {
-        const deletedBlogs = await removeAllBlogs(userId)
+        const deletedBlogs = await removeAllBlogs()
 
         const { error } = deletedBlogs
         if (error) {
@@ -107,7 +107,7 @@ export const deleteAllBlogs = createAsyncThunk(
             return error
         }
 
-        await dispatch(fetchBlogs(userId))
+        await dispatch(fetchBlogs())
 
         toast.success('All Blogs Deleted Successfully')
 

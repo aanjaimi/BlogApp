@@ -11,7 +11,6 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { 
@@ -34,8 +33,6 @@ const AddBlog = () => {
   const session = useSession();
   const dispatch = useAppDispatch();
 
-
-  // this function for removing all blogs
   const handleRemoveAll = () => {
     setOpenDelete(true);
     startTransition(async () => {

@@ -53,36 +53,9 @@ const BlogForm = ({ setOpenAdd, blog }: BlogFormProps) => {
       if (!blog) {
         dispatch(addBlog( {blog: data, userId: session.data?.user?.id as string}))
         setOpenAdd(false);
-        // addBlog(data, session.data?.user?.id as string)
-        //   .then((res) => {
-        //     if (res.error) setError(res.error);
-        //     if (res.success) {
-        //       setSuccess(res.success);
-        //       setOpenAdd(false);
-        //       toast.success(res.success);
-        //     }
-        //     form.reset();
-        //     router.push("/home");
-        //   })
-        //   .catch((err) => {
-        //     setError(err.error);
-        //   });
       } else {
         dispatch(updateBlog({blogId: blog.id, blog: data, userId: session.data?.user?.id as string}))
         setOpenAdd(false);
-          // .then((res) => {
-          //   if (res.error) setError(res.error);
-          //   if (res.success) {
-          //     setSuccess(res.success);
-          //     setOpenAdd(false);
-          //     toast.success(res.success);
-          //   }
-          //   form.reset();
-          //   router.push("/home");
-          // })
-          // .catch((err) => {
-          //   setError(err.error);
-          // });
       }
     });
   };

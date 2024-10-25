@@ -12,7 +12,6 @@ const Page = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const [blog, setBlog] = useState<Blog | null>(null);
 
-  // get blog by id
   useEffect(() => {
     const resp = getBlog(params.id);
     resp.then((res) => {

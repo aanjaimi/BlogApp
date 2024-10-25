@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Blog } from '@/types/blog'
 import { fetchBlogs } from '../createAsyncThunk'
 
-// Define a type for the slice state
 export interface BlogState {
     blogs: Blog[] | undefined
 }
@@ -15,7 +14,6 @@ export interface BlogAPI {
     userId: string
 }
 
-// Define the initial state using that type
 const initialState: BlogState = {
     blogs: undefined
 }

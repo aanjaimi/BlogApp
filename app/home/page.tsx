@@ -1,34 +1,31 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import AddBlog from "@/components/blogs/add-blog";
 import BlogList from "@/components/blogs/blog-list";
 import LoadingPage from "@/components/loading-page";
-import { useSession } from "next-auth/react";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useAppDispatch } from "@/lib/hooks";
 import { fetchBlogs } from "@/lib/blogs/createAsyncThunk";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getBlogs } from "@/actions/blogs";
 
 const Homepage = () => {
-  const session = useSession();
   const dispatch = useAppDispatch();
-  const blogs = useAppSelector((state) => state.blogReducer.blogs);
+  const queryClient = useQueryClient();
 
-  // fetch form blogs
-  useEffect(() => {
-    if (!session.data?.user?.id) return
-    dispatch(fetchBlogs(session.data?.user?.id));
-    // eslint-disable-next-line
-  }, [session.data?.user?.id]);
+  const query = useQuery({ queryKey: ["blogs"], queryFn: async () => {
+    dispatch(fetchBlogs());
+    return await getBlogs()
+  }});
 
-  if (!blogs) {
+  if (query.isLoading) {
     return <LoadingPage />;
   }
 
   return (
-    // home page
     <div className="body w-screen h-screen flex items-center justify-center">
       <div className="bg-gray-100 w-[90%] h-[90%] drop-shadow-md flex flex-col border border-grey rounded-lg">
         <AddBlog />
-        <BlogList blogs={blogs} />
+        <BlogList blogs={query.data} />
       </div>
     </div>
   );

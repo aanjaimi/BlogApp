@@ -5,6 +5,9 @@ import { Toaster } from "@/components/ui/sonner";
 import { SessionProvider } from 'next-auth/react'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +25,9 @@ export default function RootLayout({
     <html lang="en">
       <SessionProvider>
         <Provider store={store}>
-          <body className={inter.className}>{children}</body>
+          <QueryClientProvider client={queryClient}>
+            <body className={inter.className}>{children}</body>
+          </QueryClientProvider>
           <Toaster richColors />
         </Provider>
       </SessionProvider>

@@ -1,7 +1,6 @@
 import NextAuth from "next-auth"
 import FortyTwoSchool from "next-auth/providers/42-school"
 import { PrismaAdapter } from "@auth/prisma-adapter"
-// import { prisma } from "./lib/db"
 import { PrismaClient } from "@prisma/client"
 import { PrismaNeon } from "@prisma/adapter-neon"
 import { Pool } from "@neondatabase/serverless"

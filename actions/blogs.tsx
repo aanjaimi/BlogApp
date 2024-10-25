@@ -2,16 +2,20 @@
 import * as z from "zod";
 import { BlogSchema } from "@/schemas/index";
 import { db } from "../lib/db";
-//group of actions for the database operations: add blog, get blogs, remove blog, remove all blogs, get blog by id
+import { auth } from "@/auth";
 
-export const addBlogAction = async (values: z.infer<typeof BlogSchema>, userId: string) => {
+export const addBlogAction = async (values: z.infer<typeof BlogSchema>) => {
+  const session = await auth()
+  if (!session?.user?.id) {
+    return { error: "You must be logged in to create a blog" };
+  }
   const { title, content } = values;
 
   const existingBlog = await db.blog.findMany({
     where: {
       AND: [
         { title: title },
-        { userId: userId },
+        { userId: session.user.id },
       ],
     },
   });
@@ -24,21 +28,22 @@ export const addBlogAction = async (values: z.infer<typeof BlogSchema>, userId: 
     data: {
       title,
       content,
-      userId,
+      userId: session.user.id,
     },
   });
 
   return { success: "Your blog have been created!" };
 };
 
-export const getBlogs = async (userId: string | undefined) => {
-  if (!userId) {
+export const getBlogs = async () => {
+  const session = await auth()
+  if (!session?.user?.id) {
     return [];
   }
 
   return await db.blog.findMany({
     where: {
-      userId
+      userId: session?.user?.id
     }
   });
 };
@@ -56,11 +61,15 @@ export const removeBlogAction = async (id: string) => {
   }
 };
 
-export const removeAllBlogs = async (userId: string) => {
+export const removeAllBlogs = async () => {
   try {
+    const session = await auth()
+    if (!session?.user?.id) {
+      return { error: "You must be logged in to delete all blogs" };
+    }
     await db.blog.deleteMany({
       where: {
-        userId
+        userId: session.user.id,
       },
     });
     return { success: "All blogs removed" };
@@ -80,16 +89,18 @@ export const getBlog = async (id: string) => {
 export const updateBlogAction = async (
   id: string,
   values: z.infer<typeof BlogSchema>,
-  userId: string
 ) => {
-
+  const session = await auth()
+  if (!session?.user?.id) {
+    return { error: "You must be logged in to update a blog" };
+  }
   const { title, content } = values;
 
   const existingBlog = await db.blog.findMany({
     where: {
       AND: [
         { title: title },
-        { userId: userId },
+        { userId: session.user.id },
       ],
     },
   });
