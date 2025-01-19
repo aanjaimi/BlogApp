@@ -18,8 +18,6 @@ export const fetchBlogs = createAsyncThunk(
             }))
 
         } catch (err) {
-            console.log(err)
-
             return []
         }
     },
