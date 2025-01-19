@@ -2,8 +2,12 @@
 
 import { auth, signIn, signOut } from "@/auth";
 
-export const CustomSignIn = async () => {
+export const FortyTwoSignIn = async () => {
     return await signIn("42-school", { redirectTo: "/home" });
+}
+
+export const GoogleSignIn = async () => {
+    return await signIn("google", { redirectTo: "/home" });
 }
 
 export const CustomAuth = async () => {

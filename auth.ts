@@ -1,7 +1,7 @@
 import NextAuth from "next-auth"
 import FortyTwoSchool from "next-auth/providers/42-school"
+import Google from "next-auth/providers/google"
 import { PrismaAdapter } from "@auth/prisma-adapter"
-// import { prisma } from "./lib/db"
 import { PrismaClient } from "@prisma/client"
 import { PrismaNeon } from "@prisma/adapter-neon"
 import { Pool } from "@neondatabase/serverless"
@@ -21,24 +21,39 @@ export const { handlers, signIn, signOut, auth, unstable_update: update, } = Nex
         maxAge: 60 * 60,
     },
     adapter: PrismaAdapter(prisma),
-    providers: [FortyTwoSchool({
-        clientId: process.env.AUTH_42_SCHOOL_ID,
-        clientSecret: process.env.AUTH_42_SCHOOL_SECRET,
-        authorization: {
-            params: {
-                scope: "public",
+    providers: [
+        FortyTwoSchool({
+            clientId: process.env.AUTH_42_SCHOOL_ID,
+            clientSecret: process.env.AUTH_42_SCHOOL_SECRET,
+            authorization: {
+                params: {
+                    scope: "public",
+                },
             },
-        },
-        profile(profile) {
-            return {
-                id: profile.id.toString(),
-                login: profile.login,
-                email: profile.email,
-                name: profile.displayname,
-                image: profile.image_url,
+            profile(profile) {
+                return {
+                    id: profile.id.toString(),
+                    login: profile.login,
+                    email: profile.email,
+                    name: profile.displayname,
+                    image: profile.image_url,
+                }
+        }}),
+        Google({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            profile(profile) {
+                return {
+                    id: profile.sub,
+                    login: profile.email.split('@')[0],
+                    email: profile.email,
+                    name: profile.name,
+                    image: profile.picture,
+                }
             }
-        }
-    })],
+        })
+
+    ],
     callbacks: {
         async jwt({ token, user }: { token: JWT; user: User }) {
             if (user) {
